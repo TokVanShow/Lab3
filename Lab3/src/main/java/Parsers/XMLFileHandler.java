@@ -24,14 +24,14 @@ public class XMLFileHandler implements FileHandler {
                 Document document = reader.read(file);
                 Element root = document.getRootElement();
 
-                // Получаем элемент <Static>
+                // РџРѕР»СѓС‡Р°РµРј СЌР»РµРјРµРЅС‚ <Static>
                 Element staticElement = root.element("methods").element("Static");
 
-                // Получаем все элементы <function>
+                // РџРѕР»СѓС‡Р°РµРј РІСЃРµ СЌР»РµРјРµРЅС‚С‹ <function>
                 List<Element> functionElements = staticElement.elements("function");
 
                 for (Element functionElement : functionElements) {
-                    // Парсим каждый элемент <function>
+                    // РџР°СЂСЃРёРј РєР°Р¶РґС‹Р№ СЌР»РµРјРµРЅС‚ <function>
                     ReactorType reactorType = new ReactorType();
                     reactorType.setName(functionElement.attributeValue("name"));
                     reactorType.setClassType(functionElement.elementText("class"));
@@ -43,7 +43,6 @@ public class XMLFileHandler implements FileHandler {
 
                     reactorType.setLifeTime(Integer.parseInt(functionElement.elementText("life_time")));
                     reactorType.setFirstLoad(Double.parseDouble(functionElement.elementText("first_load")));
-                    // Парсинг и установка остальных полей
                     reactorType.setSource(file.getName());
                     reactorTypes.add(reactorType);
                 }

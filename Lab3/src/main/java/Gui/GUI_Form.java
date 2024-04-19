@@ -12,7 +12,7 @@ import reactors.ReactorType;
 
 public class GUI_Form extends javax.swing.JFrame {
 
-    private ReactorInfoProcessor reactorInfoProcessor;
+    private final ReactorInfoProcessor reactorInfoProcessor;
 
     public GUI_Form() {
         initComponents();
@@ -30,14 +30,14 @@ public class GUI_Form extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        loadButton.setText("Загрузить Файл ");
+        loadButton.setText("Р—Р°РіСЂСѓР·РёС‚СЊ Р¤Р°Р№Р» ");
         loadButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loadButtonActionPerformed(evt);
             }
         });
 
-        exitButton.setText("Выход");
+        exitButton.setText("Р’С‹С…РѕРґ");
         exitButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 exitButtonActionPerformed(evt);
@@ -71,15 +71,15 @@ public class GUI_Form extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(19, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(35, 35, 35)
+                .addGap(70, 70, 70)
                 .addComponent(loadButton, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 127, Short.MAX_VALUE)
                 .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(71, 71, 71))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -88,7 +88,6 @@ public class GUI_Form extends javax.swing.JFrame {
     private void loadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadButtonActionPerformed
         JFileChooser fileChooser = new JFileChooser(new File("user.dir"));
 
-        // Настройка фильтров для определенных типов файлов
         FileNameExtensionFilter filter = new FileNameExtensionFilter("JSON, YAML, XML Files", "json", "yml", "xml");
         fileChooser.setFileFilter(filter);
 

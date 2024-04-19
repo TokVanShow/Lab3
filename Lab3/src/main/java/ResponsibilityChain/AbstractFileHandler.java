@@ -1,5 +1,5 @@
 
-package responsibilitychain;
+package ResponsibilityChain;
 
 import ResponsibilityChain.FileHandler;
 import java.io.File;

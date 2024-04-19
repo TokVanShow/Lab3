@@ -17,7 +17,7 @@ public class ReactorType {
     private String source;
 
     public ReactorType() {
-        // Конструктор для dom4j
+        
     }
 
     public ReactorType(String name, String classType, double burnup, double kpd, double enrichment, int thermalCapacity, double electricalCapacity, int lifeTime, double firstLoad) {

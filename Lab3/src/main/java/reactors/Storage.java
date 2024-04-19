@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class Storage {
 
-    private Map<String, List<ReactorType>> storageMap;
+    private final Map<String, List<ReactorType>> storageMap;
 
     public Storage() {
         this.storageMap = new HashMap<>();
