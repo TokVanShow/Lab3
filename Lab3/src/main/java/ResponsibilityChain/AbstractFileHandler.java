@@ -1,5 +1,7 @@
-package ResponsibilityChain;
 
+package responsibilitychain;
+
+import ResponsibilityChain.FileHandler;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,4 +22,3 @@ public abstract class AbstractFileHandler implements FileHandler {
         return new ArrayList<>();
     }
 }
-

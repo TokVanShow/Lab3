@@ -44,7 +44,7 @@ public class XMLFileHandler implements FileHandler {
                     reactorType.setLifeTime(Integer.parseInt(functionElement.elementText("life_time")));
                     reactorType.setFirstLoad(Double.parseDouble(functionElement.elementText("first_load")));
                     // Парсинг и установка остальных полей
-
+                    reactorType.setSource(file.getName());
                     reactorTypes.add(reactorType);
                 }
             } catch (Exception e) {

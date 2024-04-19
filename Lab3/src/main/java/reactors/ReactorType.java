@@ -14,10 +14,10 @@ public class ReactorType {
     private int lifeTime;
     private double firstLoad;
 
-    private String source; // добавляем атрибут для хранения информации о источнике данных
+    private String source;
 
     public ReactorType() {
-        // Конструктор по умолчанию
+        // Конструктор для dom4j
     }
 
     public ReactorType(String name, String classType, double burnup, double kpd, double enrichment, int thermalCapacity, double electricalCapacity, int lifeTime, double firstLoad) {

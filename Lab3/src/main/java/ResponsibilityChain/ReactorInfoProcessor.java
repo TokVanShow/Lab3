@@ -1,12 +1,12 @@
 package ResponsibilityChain;
 
 import Gui.GUI_Form;
-import Parsers.JSONFileHandler;
 import Parsers.XMLFileHandler;
-import Parsers.YAMLFileHandler;
 import java.io.File;
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.util.List;
+import parsers.JSONFileHandler;
+import parsers.YAMLFileHandler;
 import reactors.ReactorType;
 
 public class ReactorInfoProcessor {
@@ -18,17 +18,14 @@ public class ReactorInfoProcessor {
         FileHandler jsonImporter = new JSONFileHandler();
         FileHandler xmlImporter = new XMLFileHandler();
         FileHandler yamlImporter = new YAMLFileHandler();
-
         jsonImporter.setNextHandler(xmlImporter);
         xmlImporter.setNextHandler(yamlImporter);
-
         this.importerChain = jsonImporter;
         this.gui = gui;
     }
 
     public void importReactorInfoFromFile(File file) {
         List<ReactorType> reactorTypes = importerChain.importFromFile(file);
-        System.out.println("reactorTypes  " + reactorTypes);
         if (reactorTypes != null && !reactorTypes.isEmpty()) {
             gui.displayReactorInfoInTree(reactorTypes);
         } else {
