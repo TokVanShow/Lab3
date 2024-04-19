@@ -1,26 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ReactorType>
-   <methods>
-       <Static>
-           <function name="MKER">
-               <class>MKER</class>
-               <burnup>30</burnup>
-               <kpd>0.352</kpd>
-               <enrichment>0.024</enrichment>
-               <thermal_capacity>4250</thermal_capacity>
-               <electrical_capacity>1500</electrical_capacity>
-               <life_time>50</life_time>
-               <first_load>192</first_load>
-           </function>
-           <function name="RBMK">
-               <class>RBMK</class>
-               <burnup>25</burnup>
-               <kpd>0.3125</kpd>
-               <enrichment>0.027</enrichment>
-               <thermal_capacity>3200</thermal_capacity>
-               <electrical_capacity>1000</electrical_capacity>
-               <life_time>40</life_time>
-               <first_load>192</first_load>
-           </function>
+    <methods>
+        <Static>
+            <function name="MKER">
+                <class>MKER</class>
+                <burnup>30</burnup>
+                <kpd>0.352</kpd>
+                <enrichment>0.024</enrichment>
+                <thermal_capacity>4250</thermal_capacity>
+                <electrical_capacity>1500</electrical_capacity>
+                <life_time>50</life_time>
+                <first_load>192</first_load>
+            </function>
+            <function name="RBMK">
+                <class>RBMK</class>
+                <burnup>25</burnup>
+                <kpd>0.3125</kpd>
+                <enrichment>0.027</enrichment>
+                <thermal_capacity>3200</thermal_capacity>
+                <electrical_capacity>1000</electrical_capacity>
+                <life_time>40</life_time>
+                <first_load>192</first_load>
+            </function>
            <function name="VVER_1000">
                <class>VVER-1200</class>
                <burnup>40</burnup>

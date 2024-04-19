@@ -1,10 +1,7 @@
 package reactors;
 
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlRootElement;
 
 
-@XmlRootElement(name = "function")
 public class ReactorType {
 
     private String name;
@@ -13,7 +10,7 @@ public class ReactorType {
     private double kpd;
     private double enrichment;
     private int thermalCapacity;
-    private int electricalCapacity;
+    private double electricalCapacity;
     private int lifeTime;
     private double firstLoad;
 
@@ -23,7 +20,7 @@ public class ReactorType {
         // Конструктор по умолчанию
     }
 
-    public ReactorType(String name, String classType, double burnup, double kpd, double enrichment, int thermalCapacity, int electricalCapacity, int lifeTime, double firstLoad) {
+    public ReactorType(String name, String classType, double burnup, double kpd, double enrichment, int thermalCapacity, double electricalCapacity, int lifeTime, double firstLoad) {
         this.name = name;
         this.classType = classType;
         this.burnup = burnup;
@@ -43,7 +40,7 @@ public class ReactorType {
         return source;
     }
 
-    @XmlElement(name = "name")
+
     public String getName() {
         return name;
     }
@@ -52,7 +49,7 @@ public class ReactorType {
         this.name = name;
     }
 
-    @XmlElement(name = "class")
+
     public String getClassType() {
         return classType;
     }
@@ -61,7 +58,7 @@ public class ReactorType {
         this.classType = classType;
     }
 
-    @XmlElement(name = "burnup")
+
     public double getBurnup() {
         return burnup;
     }
@@ -70,7 +67,7 @@ public class ReactorType {
         this.burnup = burnup;
     }
 
-    @XmlElement(name = "kpd")
+
     public double getKpd() {
         return kpd;
     }
@@ -79,7 +76,7 @@ public class ReactorType {
         this.kpd = kpd;
     }
 
-    @XmlElement(name = "enrichment")
+
     public double getEnrichment() {
         return enrichment;
     }
@@ -88,7 +85,7 @@ public class ReactorType {
         this.enrichment = enrichment;
     }
 
-    @XmlElement(name = "thermal_capacity")
+
     public int getThermalCapacity() {
         return thermalCapacity;
     }
@@ -97,16 +94,16 @@ public class ReactorType {
         this.thermalCapacity = thermalCapacity;
     }
 
-    @XmlElement(name = "electrical_capacity")
-    public int getElectricalCapacity() {
+
+    public double getElectricalCapacity() {
         return electricalCapacity;
     }
 
-    public void setElectricalCapacity(int electricalCapacity) {
+    public void setElectricalCapacity(double electricalCapacity) {
         this.electricalCapacity = electricalCapacity;
     }
 
-    @XmlElement(name = "lifeTime")
+
     public int getLifeTime() {
         return lifeTime;
     }
@@ -115,7 +112,7 @@ public class ReactorType {
         this.lifeTime = lifeTime;
     }
 
-    @XmlElement(name = "first_load")
+
     public double getFirstLoad() {
         return firstLoad;
     }
