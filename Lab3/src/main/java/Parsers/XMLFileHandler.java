@@ -1,4 +1,4 @@
-package Parsers;
+package parsers;
 
 import reactors.ReactorType;
 import org.dom4j.Document;
@@ -9,6 +9,7 @@ import ResponsibilityChain.FileHandler;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import org.dom4j.DocumentException;
 
 public class XMLFileHandler implements FileHandler {
 
@@ -46,8 +47,7 @@ public class XMLFileHandler implements FileHandler {
                     reactorType.setSource(file.getName());
                     reactorTypes.add(reactorType);
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (NumberFormatException | DocumentException e) {
             }
         } else if (nextHandler != null) {
             reactorTypes = nextHandler.importFromFile(file);

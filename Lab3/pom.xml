@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>Reactors</groupId>
@@ -9,14 +8,14 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>13</maven.compiler.source>
         <maven.compiler.target>13</maven.compiler.target>
-        <exec.mainClass>Lab3</exec.mainClass>
+        <exec.mainClass>Gui.Lab3</exec.mainClass>
     </properties>
     <dependencies>
         <!-- SnakeYAML -->
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
-            <version>1.28</version>
+            <version>1.33</version>
         </dependency>
         <!-- Jackson Databind -->
         <dependency>
@@ -31,7 +30,6 @@
             <version>2.1.4</version>
         </dependency>
     </dependencies>
-    <name>Lab3</name>
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
         <plugins>
@@ -60,7 +58,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>Gui.Lab3</mainClass> <!-- Updated main class path -->
+                            <mainClass>${exec.mainClass}</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
