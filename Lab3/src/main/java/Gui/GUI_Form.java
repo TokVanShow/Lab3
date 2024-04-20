@@ -2,6 +2,7 @@ package Gui;
 
 import ResponsibilityChain.ReactorInfoProcessor;
 import java.io.File;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import javax.swing.JFileChooser;
@@ -86,18 +87,24 @@ public class GUI_Form extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadButtonActionPerformed
-        JFileChooser fileChooser = new JFileChooser(new File("user.dir"));
 
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("JSON, YAML, XML Files", "json", "yml", "xml");
-        fileChooser.setFileFilter(filter);
+        try {
+            File currentDirectory = new File(getClass().getProtectionDomain().getCodeSource().getLocation().toURI().getPath()).getParentFile();
+            JFileChooser fileChooser = new JFileChooser(currentDirectory);
 
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        int returnValue = fileChooser.showOpenDialog(null);
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("JSON, YAML, XML Files", "json", "yml", "xml");
+            fileChooser.setFileFilter(filter);
 
-        if (returnValue == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
+            fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            int returnValue = fileChooser.showOpenDialog(null);
 
-            reactorInfoProcessor.importReactorInfoFromFile(selectedFile);
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                reactorInfoProcessor.importReactorInfoFromFile(selectedFile);
+            }
+        } catch (URISyntaxException ex) {
+            // Handle the exception, e.g., log it or show an error message
+            ex.printStackTrace();
         }
     }//GEN-LAST:event_loadButtonActionPerformed
 

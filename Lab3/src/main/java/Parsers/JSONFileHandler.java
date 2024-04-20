@@ -1,5 +1,6 @@
 package parsers;
 
+import ResponsibilityChain.AbstractFileHandler;
 import ResponsibilityChain.FileHandler;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import reactors.ReactorType;
 
-public class JSONFileHandler implements FileHandler {
+public class JSONFileHandler extends AbstractFileHandler {
 
     private FileHandler nextHandler;
 

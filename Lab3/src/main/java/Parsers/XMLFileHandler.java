@@ -1,5 +1,6 @@
 package parsers;
 
+import ResponsibilityChain.AbstractFileHandler;
 import reactors.ReactorType;
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.dom4j.DocumentException;
 
-public class XMLFileHandler implements FileHandler {
+public class XMLFileHandler extends AbstractFileHandler {
 
     private FileHandler nextHandler;
 
@@ -41,7 +42,6 @@ public class XMLFileHandler implements FileHandler {
                     reactorType.setEnrichment(Double.parseDouble(functionElement.elementText("enrichment")));
                     reactorType.setThermalCapacity(Integer.parseInt(functionElement.elementText("thermal_capacity")));
                     reactorType.setElectricalCapacity(Double.parseDouble(functionElement.elementText("electrical_capacity")));
-
                     reactorType.setLifeTime(Integer.parseInt(functionElement.elementText("life_time")));
                     reactorType.setFirstLoad(Double.parseDouble(functionElement.elementText("first_load")));
                     reactorType.setSource(file.getName());

@@ -1,7 +1,6 @@
 
 package ResponsibilityChain;
 
-import ResponsibilityChain.FileHandler;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;

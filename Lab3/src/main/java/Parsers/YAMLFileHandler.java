@@ -1,5 +1,6 @@
 package parsers;
 
+import ResponsibilityChain.AbstractFileHandler;
 import ResponsibilityChain.FileHandler;
 import org.yaml.snakeyaml.Yaml;
 import reactors.ReactorType;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class YAMLFileHandler implements FileHandler {
+public class YAMLFileHandler extends AbstractFileHandler {
 
     private FileHandler nextHandler;
 
