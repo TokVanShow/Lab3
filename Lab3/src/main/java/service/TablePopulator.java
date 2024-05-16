@@ -8,43 +8,60 @@ import entity.Region;
 
 public class TablePopulator {
 
-    public void populateTableByCompany(DefaultTableModel tableModel, Map<Company, Double> companyData) {
+    public void populateTableByCompany(DefaultTableModel tableModel, Map<Company, Map<Integer, Double>> companyData) {
         clearTable(tableModel);
-        for (Map.Entry<Company, Double> entry : companyData.entrySet()) {
+        tableModel.addColumn("Владельцы");
+        tableModel.addColumn("Объем ежегодного потребления, т.");
+        tableModel.addColumn("Год");
+        for (Map.Entry<Company, Map<Integer, Double>> entry : companyData.entrySet()) {
             Company company = entry.getKey();
-            Double consumption = entry.getValue();
-            tableModel.addRow(new Object[]{company.getCompanyName(), consumption});
+            for (Map.Entry<Integer, Double> yearEntry : entry.getValue().entrySet()) {
+                tableModel.addRow(new Object[]{company.getCompanyName(), yearEntry.getValue(), yearEntry.getKey()});
+            }
         }
     }
 
-    public void populateTableByCountry(DefaultTableModel tableModel, Map<Country, Double> countryData) {
+    public void populateTableByCountry(DefaultTableModel tableModel, Map<Country, Map<Integer, Double>> countryData) {
         clearTable(tableModel);
-        for (Map.Entry<Country, Double> entry : countryData.entrySet()) {
+        tableModel.addColumn("Страны");
+        tableModel.addColumn("Объем ежегодного потребления, т.");
+        tableModel.addColumn("Год");
+        for (Map.Entry<Country, Map<Integer, Double>> entry : countryData.entrySet()) {
             Country country = entry.getKey();
-            Double consumption = entry.getValue();
-            tableModel.addRow(new Object[]{country.getCountryName(), consumption});
+            for (Map.Entry<Integer, Double> yearEntry : entry.getValue().entrySet()) {
+                tableModel.addRow(new Object[]{country.getCountryName(), yearEntry.getValue(), yearEntry.getKey()});
+            }
         }
     }
 
-    public void populateTableByRegion(DefaultTableModel tableModel, Map<Region, Double> regionData) {
+    public void populateTableByRegion(DefaultTableModel tableModel, Map<Region, Map<Integer, Double>> regionData) {
         clearTable(tableModel);
-        for (Map.Entry<Region, Double> entry : regionData.entrySet()) {
+        tableModel.addColumn("Регионы");
+        tableModel.addColumn("Объем ежегодного потребления, т.");
+        tableModel.addColumn("Год");
+        for (Map.Entry<Region, Map<Integer, Double>> entry : regionData.entrySet()) {
             Region region = entry.getKey();
-            Double consumption = entry.getValue();
-            tableModel.addRow(new Object[]{region.getRegionName(), consumption});
+            for (Map.Entry<Integer, Double> yearEntry : entry.getValue().entrySet()) {
+                tableModel.addRow(new Object[]{region.getRegionName(), yearEntry.getValue(), yearEntry.getKey()});
+            }
         }
     }
 
-    public void populateTableByOperator(DefaultTableModel tableModel, Map<Company, Double> operatorData) {
+    public void populateTableByOperator(DefaultTableModel tableModel, Map<Company, Map<Integer, Double>> operatorData) {
         clearTable(tableModel);
-        for (Map.Entry<Company, Double> entry : operatorData.entrySet()) {
+        tableModel.addColumn("Операторы");
+        tableModel.addColumn("Объем ежегодного потребления, т.");
+        tableModel.addColumn("Год");
+        for (Map.Entry<Company, Map<Integer, Double>> entry : operatorData.entrySet()) {
             Company operator = entry.getKey();
-            Double consumption = entry.getValue();
-            tableModel.addRow(new Object[]{operator.getCompanyName(), consumption});
+            for (Map.Entry<Integer, Double> yearEntry : entry.getValue().entrySet()) {
+                tableModel.addRow(new Object[]{operator.getCompanyName(), yearEntry.getValue(), yearEntry.getKey()});
+            }
         }
     }
 
     private void clearTable(DefaultTableModel tableModel) {
         tableModel.setRowCount(0);
+        tableModel.setColumnCount(0);
     }
 }

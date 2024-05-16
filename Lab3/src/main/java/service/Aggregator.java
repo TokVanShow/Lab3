@@ -12,6 +12,7 @@ public class Aggregator {
     private final RegionDAO regionDAO;
     private final UnitDAO unitDAO;
     private final FuelConsumptionCalculator fuelConsumptionCalculator;
+    private DataFiller dataFiller;
 
     public Aggregator(CompanyDAO companyDAO, CountryDAO countryDAO, RegionDAO regionDAO, UnitDAO unitDAO, FuelConsumptionCalculator fuelConsumptionCalculator) {
         this.companyDAO = companyDAO;
@@ -21,54 +22,74 @@ public class Aggregator {
         this.fuelConsumptionCalculator = fuelConsumptionCalculator;
     }
 
-    public Map<Company, Double> getCompanyConsumption() {
+    public void setDataFiller(DataFiller dataFiller) {
+        this.dataFiller = dataFiller;
+        this.dataFiller.fillMissingBurnupValues();
+    }
+
+    public Map<Company, Map<Integer, Double>> getCompanyConsumption() {
         List<Company> companies = companyDAO.getAllCompanies();
-        Map<Company, Double> result = new HashMap<>();
+        Map<Company, Map<Integer, Double>> result = new HashMap<>();
 
         for (Company company : companies) {
             List<Unit> units = unitDAO.getUnitsByOwner(company);
-            double totalConsumption = units.stream().mapToDouble(fuelConsumptionCalculator::calculateTotalConsumption).sum();
-            result.put(company, totalConsumption);
+            Map<Integer, Double> consumptionByYear = new HashMap<>();
+            for (Unit unit : units) {
+                Map<Integer, Double> unitConsumption = fuelConsumptionCalculator.calculateAnnualConsumptions(unit);
+                unitConsumption.forEach((year, consumption) -> consumptionByYear.merge(year, consumption, Double::sum));
+            }
+            result.put(company, consumptionByYear);
         }
 
         return result;
     }
 
-    public Map<Company, Double> getOperatorConsumption() {
+    public Map<Company, Map<Integer, Double>> getOperatorConsumption() {
         List<Company> operators = companyDAO.getAllOperators();
-        Map<Company, Double> result = new HashMap<>();
+        Map<Company, Map<Integer, Double>> result = new HashMap<>();
 
         for (Company operator : operators) {
             List<Unit> units = unitDAO.getUnitsByOperator(operator);
-            double totalConsumption = units.stream().mapToDouble(fuelConsumptionCalculator::calculateTotalConsumption).sum();
-            result.put(operator, totalConsumption);
+            Map<Integer, Double> consumptionByYear = new HashMap<>();
+            for (Unit unit : units) {
+                Map<Integer, Double> unitConsumption = fuelConsumptionCalculator.calculateAnnualConsumptions(unit);
+                unitConsumption.forEach((year, consumption) -> consumptionByYear.merge(year, consumption, Double::sum));
+            }
+            result.put(operator, consumptionByYear);
         }
 
         return result;
     }
 
-    public Map<Country, Double> getCountryConsumption() {
+    public Map<Country, Map<Integer, Double>> getCountryConsumption() {
         List<Country> countries = countryDAO.getAllCountries();
-        Map<Country, Double> result = new HashMap<>();
+        Map<Country, Map<Integer, Double>> result = new HashMap<>();
 
         for (Country country : countries) {
             List<Unit> units = unitDAO.getUnitsByCountry(country);
-            double totalConsumption = units.stream().mapToDouble(fuelConsumptionCalculator::calculateTotalConsumption).sum();
-            result.put(country, totalConsumption);
+            Map<Integer, Double> consumptionByYear = new HashMap<>();
+            for (Unit unit : units) {
+                Map<Integer, Double> unitConsumption = fuelConsumptionCalculator.calculateAnnualConsumptions(unit);
+                unitConsumption.forEach((year, consumption) -> consumptionByYear.merge(year, consumption, Double::sum));
+            }
+            result.put(country, consumptionByYear);
         }
 
         return result;
     }
 
-    public Map<Region, Double> getRegionConsumption() {
+    public Map<Region, Map<Integer, Double>> getRegionConsumption() {
         List<Region> regions = regionDAO.getAllRegions();
-        Map<Region, Double> result = new HashMap<>();
+        Map<Region, Map<Integer, Double>> result = new HashMap<>();
 
         for (Region region : regions) {
             List<Unit> units = unitDAO.getUnitsByRegion(region);
-            System.out.println("\u001B[42mReactor: " + region + "\u001B[0m");
-            double totalConsumption = units.stream().mapToDouble(fuelConsumptionCalculator::calculateTotalConsumption).sum();
-            result.put(region, totalConsumption);
+            Map<Integer, Double> consumptionByYear = new HashMap<>();
+            for (Unit unit : units) {
+                Map<Integer, Double> unitConsumption = fuelConsumptionCalculator.calculateAnnualConsumptions(unit);
+                unitConsumption.forEach((year, consumption) -> consumptionByYear.merge(year, consumption, Double::sum));
+            }
+            result.put(region, consumptionByYear);
         }
 
         return result;

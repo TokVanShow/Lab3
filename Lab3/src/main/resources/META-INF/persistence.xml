@@ -10,7 +10,7 @@
     <class>entity.KIUM</class>
     <properties>
       <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://aws-0-eu-central-1.pooler.supabase.com:5432/postgres?user=postgres.vbcjacyizrigzbvrjwbx&amp;password=TokVanShow_0916"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://aws-0-eu-central-1.pooler.supabase.com:6543/postgres?user=postgres.vbcjacyizrigzbvrjwbx&amp;password=TokVanShow_0916"/>
       <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
       <property name="hibernate.show_sql" value="true"/>
       <property name="hibernate.format_sql" value="false"/>

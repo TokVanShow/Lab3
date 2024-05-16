@@ -10,13 +10,13 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import reactors.ReactorType;
+import reactors.Storage;
 import service.*;
 
 public class GUI_Form extends javax.swing.JFrame {
@@ -38,6 +38,12 @@ public class GUI_Form extends javax.swing.JFrame {
                 new RegionDAO(em, 7),
                 new UnitDAO(em, 100),
                 new FuelConsumptionCalculator(new KIUMDAO(em, 5)));
+
+        ButtonGroup group = new ButtonGroup();
+        group.add(countryRadio);
+        group.add(regionRadio);
+        group.add(ownersRadio);
+        group.add(operatorsRadio);
     }
 
     @SuppressWarnings("unchecked")
@@ -278,25 +284,28 @@ public class GUI_Form extends javax.swing.JFrame {
     }//GEN-LAST:event_loadBDActionPerformed
 
     private void calculateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calculateActionPerformed
-
         DefaultTableModel tableModel = (DefaultTableModel) agregationTable.getModel();
 
+        // Создание DataFiller и обновление Aggregator
+        EntityManager em = entityManagerFactory.createEntityManager();
+        DataFiller dataFiller = new DataFiller(new UnitDAO(em, 100), new Storage());
+        aggregator.setDataFiller(dataFiller);
+
         if (countryRadio.isSelected()) {
-            Map<Country, Double> countryConsumption = aggregator.getCountryConsumption();
+            Map<Country, Map<Integer, Double>> countryConsumption = aggregator.getCountryConsumption();
             tablePopulator.populateTableByCountry(tableModel, countryConsumption);
         } else if (regionRadio.isSelected()) {
-            Map<Region, Double> regionConsumption = aggregator.getRegionConsumption();
+            Map<Region, Map<Integer, Double>> regionConsumption = aggregator.getRegionConsumption();
             tablePopulator.populateTableByRegion(tableModel, regionConsumption);
         } else if (ownersRadio.isSelected()) {
-            Map<Company, Double> companyConsumption = aggregator.getCompanyConsumption();
+            Map<Company, Map<Integer, Double>> companyConsumption = aggregator.getCompanyConsumption();
             tablePopulator.populateTableByCompany(tableModel, companyConsumption);
         } else if (operatorsRadio.isSelected()) {
-            // Add the aggregation logic for operators if required
-            JOptionPane.showMessageDialog(this, "Operator aggregation not implemented.", "Error", JOptionPane.ERROR_MESSAGE);
+            Map<Company, Map<Integer, Double>> operatorConsumption = aggregator.getOperatorConsumption();
+            tablePopulator.populateTableByOperator(tableModel, operatorConsumption);
         } else {
             JOptionPane.showMessageDialog(this, "Select an aggregation option.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-
     }//GEN-LAST:event_calculateActionPerformed
 
     private void countryRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_countryRadioActionPerformed

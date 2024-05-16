@@ -4,7 +4,7 @@ import dao.KIUMDAO;
 import entity.KIUM;
 import entity.Unit;
 
-import java.util.Optional;
+import java.util.*;
 
 public class FuelConsumptionCalculator {
 
@@ -22,22 +22,20 @@ public class FuelConsumptionCalculator {
         return (thermalCapacity / burnup) * kiumValue / 100;
     }
 
-    public double calculateTotalConsumption(Unit unit) {
-        System.out.println("\u001B[43mReactor: " + unit.getName() + "\u001B[0m");
+    public Map<Integer, Double> calculateAnnualConsumptions(Unit unit) {
+        Map<Integer, Double> annualConsumptions = new HashMap<>();
         int startYear = Math.max(getYear(unit.getFirstGridConnectionDate()), 2014);
         int endYear = Math.min(getYear(Optional.ofNullable(unit.getDateShutdown()).orElse(new java.util.Date())), 2024);
 
-        double totalConsumption = 0.0;
-
         for (int year = startYear; year <= endYear; year++) {
             if (year == getYear(unit.getFirstGridConnectionDate())) {
-                totalConsumption += unit.getFirstLoad();
+                annualConsumptions.put(year, unit.getFirstLoad());
             } else {
-                totalConsumption += calculateAnnualConsumption(unit, year);
+                annualConsumptions.put(year, calculateAnnualConsumption(unit, year));
             }
         }
 
-        return totalConsumption;
+        return annualConsumptions;
     }
 
     private double fetchKiumValue(Unit unit, long year) {
