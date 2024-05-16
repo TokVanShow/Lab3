@@ -1,7 +1,5 @@
 package reactors;
 
-
-
 public class ReactorType {
 
     private String name;
