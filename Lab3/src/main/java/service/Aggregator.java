@@ -66,6 +66,7 @@ public class Aggregator {
 
         for (Region region : regions) {
             List<Unit> units = unitDAO.getUnitsByRegion(region);
+            System.out.println("\u001B[42mReactor: " + region + "\u001B[0m");
             double totalConsumption = units.stream().mapToDouble(fuelConsumptionCalculator::calculateTotalConsumption).sum();
             result.put(region, totalConsumption);
         }

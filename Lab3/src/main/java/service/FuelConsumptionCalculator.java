@@ -19,10 +19,11 @@ public class FuelConsumptionCalculator {
         double thermalCapacity = unit.getThermalCapacity();
         double kiumValue = fetchKiumValue(unit, year);
 
-        return (thermalCapacity / burnup) * kiumValue;
+        return (thermalCapacity / burnup) * kiumValue / 100;
     }
 
     public double calculateTotalConsumption(Unit unit) {
+        System.out.println("\u001B[43mReactor: " + unit.getName() + "\u001B[0m");
         int startYear = Math.max(getYear(unit.getFirstGridConnectionDate()), 2014);
         int endYear = Math.min(getYear(Optional.ofNullable(unit.getDateShutdown()).orElse(new java.util.Date())), 2024);
 

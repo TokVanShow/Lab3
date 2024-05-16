@@ -1,0 +1,27 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <!-- Настройки подключения к базе данных -->
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://aws-0-eu-central-1.pooler.supabase.com:6543/postgres?user=test_user.vbcjacyizrigzbvrjwbx&amp;password=password</property>
+
+        <!-- Диалект PostgreSQL -->
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+
+        <!-- Показывать или нет SQL-запросы в консоли -->
+        <property name="hibernate.show_sql">true</property>
+
+        <!-- Отображать ли форматированный SQL-запрос в консоли -->
+        <property name="hibernate.format_sql">true</property>
+
+        <!-- Имя пакета, в котором находятся классы сущностей -->
+        <mapping class="entity.Company"/>
+        <mapping class="entity.Country"/>
+        <mapping class="entity.Region"/>
+        <mapping class="entity.Unit"/>
+        <mapping class="entity.KIUM"/>
+
+    </session-factory>
+</hibernate-configuration>

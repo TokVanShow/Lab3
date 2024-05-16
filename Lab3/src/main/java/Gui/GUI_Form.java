@@ -10,17 +10,14 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
+
+import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import reactors.ReactorType;
-import service.Aggregator;
-import service.FuelConsumptionCalculator;
-import service.TablePopulator;
-import service.ExcelDataLoader;
+import service.*;
 
 public class GUI_Form extends javax.swing.JFrame {
 
@@ -38,9 +35,9 @@ public class GUI_Form extends javax.swing.JFrame {
         EntityManager em = entityManagerFactory.createEntityManager();
         aggregator = new Aggregator(new CompanyDAO(em, 50),
                 new CountryDAO(em, 50),
-                new RegionDAO(em, 10),
+                new RegionDAO(em, 7),
                 new UnitDAO(em, 100),
-                new FuelConsumptionCalculator(new KIUMDAO(em, 50)));
+                new FuelConsumptionCalculator(new KIUMDAO(em, 5)));
     }
 
     @SuppressWarnings("unchecked")
@@ -138,9 +135,10 @@ public class GUI_Form extends javax.swing.JFrame {
                         .addComponent(loadBD, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(calculate, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(countryRadio, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(regionRadio, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ownersRadio)
-                    .addComponent(operatorsRadio))
+                    .addComponent(operatorsRadio)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(regionRadio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(ownersRadio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -258,7 +256,7 @@ public class GUI_Form extends javax.swing.JFrame {
                         long endTime = System.currentTimeMillis();
 
                         // Вычисляем время выполнения загрузки данных
-                        long executionTime = endTime - startTime;
+                        long executionTime = (endTime - startTime) / 60000;
 
                         // Выводим время выполнения загрузки в консоль
                         System.out.println("Время выполнения загрузки данных: " + executionTime + " миллисекунд");

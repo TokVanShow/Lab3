@@ -23,11 +23,11 @@ public class DataFiller {
             String reactorClassType = mapClassType(unit.getUnitClass());
             List<ReactorType> reactorTypes = storage.getReactorTypes(reactorClassType);
             for (ReactorType type : reactorTypes) {
-                if (checkReactorType(unit, type)) {
+//                if (checkReactorType(unit, type)) {
                     unit.setBurnup(type.getBurnup());
                     unit.setFirstLoad(type.getFirstLoad());
                     break;
-                }
+//                }
             }
         }
     }
@@ -45,16 +45,16 @@ public class DataFiller {
         }
     }
 
-    private boolean checkReactorType(Unit unit, ReactorType reactorType) {
-        switch (unit.getUnitClass()) {
-            case "PHWR":
-                return reactorType.getClassType().equals("PHWR");
-            case "PWR":
-                return reactorType.getClassType().equals("PWR");
-            case "BWR":
-                return reactorType.getClassType().equals("BWR");
-            default:
-                return false;
-        }
-    }
+//    private boolean checkReactorType(Unit unit, ReactorType reactorType) {
+//        switch (unit.getUnitClass()) {
+//            case "PHWR":
+//                return reactorType.getClassType().equals("PHWR");
+//            case "PWR":
+//                return reactorType.getClassType().equals("PWR");
+//            case "BWR":
+//                return reactorType.getClassType().equals("BWR");
+//            default:
+//                return false;
+//        }
+//    }
 }
