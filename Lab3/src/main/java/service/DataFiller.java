@@ -32,27 +32,15 @@ public class DataFiller {
     }
 
     private String mapClassType(String classType) {
-        String mappedType = switch (classType.trim()) {
-            case "LWGR" -> "RBMK";
-            case "GCR" -> "MAGNOX";
-            case "FBR" -> "BN";
-            default -> classType.trim();
+        return switch (classType.trim()) {
+            case "LWGR" ->
+                "RBMK";
+            case "GCR" ->
+                "MAGNOX";
+            case "FBR" ->
+                "BN";
+            default ->
+                classType.trim();
         };
-        return mappedType;
     }
 }
-
-
-//    private boolean checkReactorType(Unit unit, ReactorType reactorType) {
-//        switch (unit.getUnitClass()) {
-//            case "PHWR":
-//                return reactorType.getClassType().equals("PHWR");
-//            case "PWR":
-//                return reactorType.getClassType().equals("PWR");
-//            case "BWR":
-//                return reactorType.getClassType().equals("BWR");
-//            default:
-//                return false;
-//        }
-//    }
-

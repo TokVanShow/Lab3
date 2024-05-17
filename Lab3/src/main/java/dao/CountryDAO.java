@@ -21,13 +21,10 @@ public class CountryDAO {
         entityManager.merge(country);
     }
 
-public List<Country> getAllCountries() {
-    String sql = "SELECT * FROM countries";
-    Query nativeQuery = entityManager.createNativeQuery(sql, Country.class);
-    nativeQuery.setHint("org.hibernate.fetchSize", batchSize);
-    List<Country> countries = nativeQuery.getResultList();
-    return countries;
-}
+    public List<Country> getAllCountries() {
+        TypedQuery<Country> query = entityManager.createQuery("SELECT c FROM Country c", Country.class);
+        return query.getResultList();
+    }
 
     public void saveEntitiesInBatch(List<Country> entities) {
         for (int i = 0; i < entities.size(); i++) {

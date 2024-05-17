@@ -15,6 +15,8 @@ public class Aggregator {
     private DataFiller dataFiller;
     private boolean dataFilled = false; // Флаг, указывающий, что данные уже заполнены
 
+    private final Map<Long, Map<Integer, Double>> unitConsumptionCache = new HashMap<>(); // Кэш для потребления топлива по годам
+
     public Aggregator(CompanyDAO companyDAO, CountryDAO countryDAO, RegionDAO regionDAO, UnitDAO unitDAO, FuelConsumptionCalculator fuelConsumptionCalculator) {
         this.companyDAO = companyDAO;
         this.countryDAO = countryDAO;
@@ -42,10 +44,9 @@ public class Aggregator {
 
         for (Company company : companies) {
             List<Unit> units = unitDAO.getUnitsByOwner(company);
-            ensureDataFilled();
             Map<Integer, Double> consumptionByYear = new HashMap<>();
             for (Unit unit : units) {
-                Map<Integer, Double> unitConsumption = fuelConsumptionCalculator.calculateAnnualConsumptions(unit);
+                Map<Integer, Double> unitConsumption = getCachedUnitConsumption(unit);
                 unitConsumption.forEach((year, consumption) -> consumptionByYear.merge(year, consumption, Double::sum));
             }
             result.put(company, consumptionByYear);
@@ -64,7 +65,7 @@ public class Aggregator {
             List<Unit> units = unitDAO.getUnitsByOperator(operator);
             Map<Integer, Double> consumptionByYear = new HashMap<>();
             for (Unit unit : units) {
-                Map<Integer, Double> unitConsumption = fuelConsumptionCalculator.calculateAnnualConsumptions(unit);
+                Map<Integer, Double> unitConsumption = getCachedUnitConsumption(unit);
                 unitConsumption.forEach((year, consumption) -> consumptionByYear.merge(year, consumption, Double::sum));
             }
             result.put(operator, consumptionByYear);
@@ -83,7 +84,7 @@ public class Aggregator {
             List<Unit> units = unitDAO.getUnitsByCountry(country);
             Map<Integer, Double> consumptionByYear = new HashMap<>();
             for (Unit unit : units) {
-                Map<Integer, Double> unitConsumption = fuelConsumptionCalculator.calculateAnnualConsumptions(unit);
+                Map<Integer, Double> unitConsumption = getCachedUnitConsumption(unit);
                 unitConsumption.forEach((year, consumption) -> consumptionByYear.merge(year, consumption, Double::sum));
             }
             result.put(country, consumptionByYear);
@@ -102,12 +103,16 @@ public class Aggregator {
             List<Unit> units = unitDAO.getUnitsByRegion(region);
             Map<Integer, Double> consumptionByYear = new HashMap<>();
             for (Unit unit : units) {
-                Map<Integer, Double> unitConsumption = fuelConsumptionCalculator.calculateAnnualConsumptions(unit);
+                Map<Integer, Double> unitConsumption = getCachedUnitConsumption(unit);
                 unitConsumption.forEach((year, consumption) -> consumptionByYear.merge(year, consumption, Double::sum));
             }
             result.put(region, consumptionByYear);
         }
 
         return result;
+    }
+
+    private Map<Integer, Double> getCachedUnitConsumption(Unit unit) {
+        return unitConsumptionCache.computeIfAbsent(unit.getId(), id -> fuelConsumptionCalculator.calculateAnnualConsumptions(unit));
     }
 }

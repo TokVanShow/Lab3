@@ -3,18 +3,31 @@ package service;
 import dao.KIUMDAO;
 import entity.KIUM;
 import entity.Unit;
+import reactors.Storage;
 
 import java.util.*;
-import reactors.Storage;
+import java.util.stream.Collectors;
 
 public class FuelConsumptionCalculator {
 
     private final KIUMDAO kiumDAO;
     private final Storage storage; // добавляем storage
 
+    private final Map<Long, Map<Long, Double>> kiumCache = new HashMap<>(); // Кэш для значений KIUM
+
     public FuelConsumptionCalculator(KIUMDAO kiumDAO, Storage storage) {
         this.kiumDAO = kiumDAO;
         this.storage = storage;
+        prefetchKiumValues(); // Предварительная загрузка значений KIUM
+    }
+
+    private void prefetchKiumValues() {
+        List<KIUM> allKIUMs = kiumDAO.getAllKIUMs();
+        for (KIUM kium : allKIUMs) {
+            kiumCache
+                .computeIfAbsent(kium.getReactor().getId(), id -> new HashMap<>())
+                .put(kium.getYear(), kium.getKiumValue());
+        }
     }
 
     public double calculateAnnualConsumption(Unit unit, int year) {
@@ -43,9 +56,7 @@ public class FuelConsumptionCalculator {
     }
 
     private double fetchKiumValue(Unit unit, long year) {
-        KIUM kium = kiumDAO.getKiumByReactorAndYear(unit, year).stream().findFirst().orElse(null);
-        System.out.println("KIUM = " + kium);
-        return kium != null ? kium.getKiumValue() : 85;
+        return kiumCache.getOrDefault(unit.getId(), Collections.emptyMap()).getOrDefault(year, 85.0);
     }
 
     private int getYear(java.util.Date date) {

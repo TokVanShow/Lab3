@@ -1,15 +1,12 @@
 package service;
 
 import javax.swing.table.DefaultTableModel;
-import java.text.DecimalFormat;
 import java.util.Map;
 import entity.Company;
 import entity.Country;
 import entity.Region;
 
 public class TablePopulator {
-
-    private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.###");
 
     public void populateTableByCompany(DefaultTableModel tableModel, Map<Company, Map<Integer, Double>> companyData) {
         clearTable(tableModel);
@@ -19,7 +16,7 @@ public class TablePopulator {
         for (Map.Entry<Company, Map<Integer, Double>> entry : companyData.entrySet()) {
             Company company = entry.getKey();
             for (Map.Entry<Integer, Double> yearEntry : entry.getValue().entrySet()) {
-                tableModel.addRow(new Object[]{company.getCompanyName(), formatValue(yearEntry.getValue()), yearEntry.getKey()});
+                tableModel.addRow(new Object[]{company.getCompanyName(), yearEntry.getValue(), yearEntry.getKey()});
             }
         }
     }
@@ -32,7 +29,7 @@ public class TablePopulator {
         for (Map.Entry<Country, Map<Integer, Double>> entry : countryData.entrySet()) {
             Country country = entry.getKey();
             for (Map.Entry<Integer, Double> yearEntry : entry.getValue().entrySet()) {
-                tableModel.addRow(new Object[]{country.getCountryName(), formatValue(yearEntry.getValue()), yearEntry.getKey()});
+                tableModel.addRow(new Object[]{country.getCountryName(), yearEntry.getValue(), yearEntry.getKey()});
             }
         }
     }
@@ -45,7 +42,7 @@ public class TablePopulator {
         for (Map.Entry<Region, Map<Integer, Double>> entry : regionData.entrySet()) {
             Region region = entry.getKey();
             for (Map.Entry<Integer, Double> yearEntry : entry.getValue().entrySet()) {
-                tableModel.addRow(new Object[]{region.getRegionName(), formatValue(yearEntry.getValue()), yearEntry.getKey()});
+                tableModel.addRow(new Object[]{region.getRegionName(), yearEntry.getValue(), yearEntry.getKey()});
             }
         }
     }
@@ -58,7 +55,7 @@ public class TablePopulator {
         for (Map.Entry<Company, Map<Integer, Double>> entry : operatorData.entrySet()) {
             Company operator = entry.getKey();
             for (Map.Entry<Integer, Double> yearEntry : entry.getValue().entrySet()) {
-                tableModel.addRow(new Object[]{operator.getCompanyName(), formatValue(yearEntry.getValue()), yearEntry.getKey()});
+                tableModel.addRow(new Object[]{operator.getCompanyName(), yearEntry.getValue(), yearEntry.getKey()});
             }
         }
     }
@@ -66,22 +63,5 @@ public class TablePopulator {
     private void clearTable(DefaultTableModel tableModel) {
         tableModel.setRowCount(0);
         tableModel.setColumnCount(0);
-    }
-
-    private String formatValue(Double value) {
-        return DECIMAL_FORMAT.format(value);
-    }
-
-    // Custom non-editable table model
-    public static class NonEditableTableModel extends DefaultTableModel {
-
-        public NonEditableTableModel() {
-            super();
-        }
-
-        @Override
-        public boolean isCellEditable(int row, int column) {
-            return false; // All cells are non-editable
-        }
     }
 }
