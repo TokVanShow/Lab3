@@ -11,16 +11,13 @@ public class ReactorType {
     private double electricalCapacity;
     private int lifeTime;
     private double firstLoad;
-
     private String source;
 
-    public ReactorType() {
-        
-    }
+    public ReactorType() {}
 
     public ReactorType(String name, String classType, double burnup, double kpd, double enrichment, int thermalCapacity, double electricalCapacity, int lifeTime, double firstLoad) {
         this.name = name;
-        this.classType = classType;
+        this.classType = classType.trim();
         this.burnup = burnup;
         this.kpd = kpd;
         this.enrichment = enrichment;
@@ -38,7 +35,6 @@ public class ReactorType {
         return source;
     }
 
-
     public String getName() {
         return name;
     }
@@ -47,15 +43,13 @@ public class ReactorType {
         this.name = name;
     }
 
-
     public String getClassType() {
         return classType;
     }
 
     public void setClassType(String classType) {
-        this.classType = classType;
+        this.classType = classType.trim();
     }
-
 
     public double getBurnup() {
         return burnup;
@@ -65,7 +59,6 @@ public class ReactorType {
         this.burnup = burnup;
     }
 
-
     public double getKpd() {
         return kpd;
     }
@@ -73,7 +66,6 @@ public class ReactorType {
     public void setKpd(double kpd) {
         this.kpd = kpd;
     }
-
 
     public double getEnrichment() {
         return enrichment;
@@ -83,7 +75,6 @@ public class ReactorType {
         this.enrichment = enrichment;
     }
 
-
     public int getThermalCapacity() {
         return thermalCapacity;
     }
@@ -91,7 +82,6 @@ public class ReactorType {
     public void setThermalCapacity(int thermalCapacity) {
         this.thermalCapacity = thermalCapacity;
     }
-
 
     public double getElectricalCapacity() {
         return electricalCapacity;
@@ -101,7 +91,6 @@ public class ReactorType {
         this.electricalCapacity = electricalCapacity;
     }
 
-
     public int getLifeTime() {
         return lifeTime;
     }
@@ -109,7 +98,6 @@ public class ReactorType {
     public void setLifeTime(int lifeTime) {
         this.lifeTime = lifeTime;
     }
-
 
     public double getFirstLoad() {
         return firstLoad;

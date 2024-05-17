@@ -21,29 +21,27 @@ public class DataFiller {
         List<Unit> units = unitDAO.getAllUnits();
         for (Unit unit : units) {
             String reactorClassType = mapClassType(unit.getUnitClass());
-            List<ReactorType> reactorTypes = storage.getReactorTypes(reactorClassType);
-            for (ReactorType type : reactorTypes) {
-//                if (checkReactorType(unit, type)) {
-                    unit.setBurnup(type.getBurnup());
-                    unit.setFirstLoad(type.getFirstLoad());
-                    break;
-//                }
+            ReactorType reactorType = storage.getReactorType(reactorClassType);
+            if (reactorType != null) {
+                unit.setBurnup(reactorType.getBurnup());
+                unit.setFirstLoad(reactorType.getFirstLoad());
+                // Сохраняем временные значения в память
+                storage.saveTemporaryValues(unit.getId(), reactorType.getBurnup(), reactorType.getFirstLoad());
             }
         }
     }
 
     private String mapClassType(String classType) {
-        switch (classType) {
-            case "LWGR":
-                return "RBMK";
-            case "GCR":
-                return "MAGNOX";
-            case "FBR":
-                return "BN";
-            default:
-                return classType;
-        }
+        String mappedType = switch (classType.trim()) {
+            case "LWGR" -> "RBMK";
+            case "GCR" -> "MAGNOX";
+            case "FBR" -> "BN";
+            default -> classType.trim();
+        };
+        return mappedType;
     }
+}
+
 
 //    private boolean checkReactorType(Unit unit, ReactorType reactorType) {
 //        switch (unit.getUnitClass()) {
@@ -57,4 +55,4 @@ public class DataFiller {
 //                return false;
 //        }
 //    }
-}
+

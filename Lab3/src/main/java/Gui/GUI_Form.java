@@ -5,6 +5,7 @@ import dao.*;
 import entity.*;
 import java.io.File;
 import java.net.URISyntaxException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.EntityManager;
@@ -25,11 +26,13 @@ public class GUI_Form extends javax.swing.JFrame {
     private final EntityManagerFactory entityManagerFactory;
     private final Aggregator aggregator;
     private final TablePopulator tablePopulator;
+    private final Storage storage;
 
     public GUI_Form(EntityManagerFactory entityManagerFactory) {
         initComponents();
         this.entityManagerFactory = entityManagerFactory;
-        reactorInfoProcessor = new ReactorInfoProcessor(this);
+        this.storage = new Storage();
+        reactorInfoProcessor = new ReactorInfoProcessor(this, storage);
         tablePopulator = new TablePopulator();
 
         EntityManager em = entityManagerFactory.createEntityManager();
@@ -37,7 +40,7 @@ public class GUI_Form extends javax.swing.JFrame {
                 new CountryDAO(em, 50),
                 new RegionDAO(em, 7),
                 new UnitDAO(em, 100),
-                new FuelConsumptionCalculator(new KIUMDAO(em, 5)));
+                new FuelConsumptionCalculator(new KIUMDAO(em, 100), storage));
 
         ButtonGroup group = new ButtonGroup();
         group.add(countryRadio);
@@ -146,10 +149,10 @@ public class GUI_Form extends javax.swing.JFrame {
                         .addComponent(regionRadio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(ownersRadio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 516, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 544, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -181,7 +184,6 @@ public class GUI_Form extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadButtonActionPerformed
-
         try {
             File currentDirectory = new File(getClass().getProtectionDomain().getCodeSource().getLocation().toURI().getPath()).getParentFile();
             JFileChooser fileChooser = new JFileChooser(currentDirectory);
@@ -197,7 +199,6 @@ public class GUI_Form extends javax.swing.JFrame {
                 reactorInfoProcessor.importReactorInfoFromFile(selectedFile);
             }
         } catch (URISyntaxException ex) {
-            // Handle the exception, e.g., log it or show an error message
             ex.printStackTrace();
         }
     }//GEN-LAST:event_loadButtonActionPerformed
@@ -288,7 +289,7 @@ public class GUI_Form extends javax.swing.JFrame {
 
         // Создание DataFiller и обновление Aggregator
         EntityManager em = entityManagerFactory.createEntityManager();
-        DataFiller dataFiller = new DataFiller(new UnitDAO(em, 100), new Storage());
+        DataFiller dataFiller = new DataFiller(new UnitDAO(em, 100), storage);
         aggregator.setDataFiller(dataFiller);
 
         if (countryRadio.isSelected()) {
@@ -312,7 +313,7 @@ public class GUI_Form extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_countryRadioActionPerformed
 
-    public void displayReactorInfoInTree(List<ReactorType> reactorTypes) {
+    public void displayReactorInfoInTree(Collection<ReactorType> reactorTypes) {
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("Reactor Types");
 
         for (ReactorType reactor : reactorTypes) {

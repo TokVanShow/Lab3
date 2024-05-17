@@ -139,7 +139,7 @@ public class ExcelDataLoader {
             Country country = entityManager.find(Country.class, countryId);
 
             Unit unit = new Unit(id, name, unitClass, model, status, thermalCapacity,
-                    firstGridConnectionDate, dateShutdown, owner, operator, country);
+                    firstGridConnectionDate, dateShutdown, owner, operator, country, 0.0, 0.0);
             units.add(unit);
         }
         return units;
@@ -164,7 +164,7 @@ public class ExcelDataLoader {
                 try {
                     kiumValue = Double.parseDouble(valueAsString);
                 } catch (NumberFormatException e) {
-                    e.printStackTrace(); 
+                    e.printStackTrace();
                 }
             }
             Long year = (long) currentRow.getCell(2).getNumericCellValue();

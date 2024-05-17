@@ -5,19 +5,24 @@ import entity.KIUM;
 import entity.Unit;
 
 import java.util.*;
+import reactors.Storage;
 
 public class FuelConsumptionCalculator {
 
     private final KIUMDAO kiumDAO;
+    private final Storage storage; // добавляем storage
 
-    public FuelConsumptionCalculator(KIUMDAO kiumDAO) {
+    public FuelConsumptionCalculator(KIUMDAO kiumDAO, Storage storage) {
         this.kiumDAO = kiumDAO;
+        this.storage = storage;
     }
 
     public double calculateAnnualConsumption(Unit unit, int year) {
-        double burnup = unit.getBurnup();
+        double burnup = storage.getTemporaryBurnup(unit.getId()); // Извлекаем временное значение
         double thermalCapacity = unit.getThermalCapacity();
         double kiumValue = fetchKiumValue(unit, year);
+        System.out.println("burnup = " + burnup);
+        System.out.println("FirstLoad = " + storage.getTemporaryFirstLoad(unit.getId()));
 
         return (thermalCapacity / burnup) * kiumValue / 100;
     }
@@ -29,17 +34,17 @@ public class FuelConsumptionCalculator {
 
         for (int year = startYear; year <= endYear; year++) {
             if (year == getYear(unit.getFirstGridConnectionDate())) {
-                annualConsumptions.put(year, unit.getFirstLoad());
+                annualConsumptions.put(year, storage.getTemporaryFirstLoad(unit.getId())); // Извлекаем временное значение
             } else {
                 annualConsumptions.put(year, calculateAnnualConsumption(unit, year));
             }
         }
-
         return annualConsumptions;
     }
 
     private double fetchKiumValue(Unit unit, long year) {
         KIUM kium = kiumDAO.getKiumByReactorAndYear(unit, year).stream().findFirst().orElse(null);
+        System.out.println("KIUM = " + kium);
         return kium != null ? kium.getKiumValue() : 85;
     }
 

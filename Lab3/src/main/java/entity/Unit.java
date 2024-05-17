@@ -56,19 +56,22 @@ public class Unit {
     public Unit() {
     }
 
-    public Unit(Long id, String name, String unitClass, String model, String status, Long thermalCapacity, Date firstGridConnectionDate, Date dateShutdown, Company owner, Company operator, Country country) {
-        this.id = id;
-        this.name = name;
-        this.unitClass = unitClass;
-        this.model = model;
-        this.status = status;
-        this.thermalCapacity = thermalCapacity;
-        this.firstGridConnectionDate = firstGridConnectionDate;
-        this.dateShutdown = dateShutdown;
-        this.owner = owner;
-        this.operator = operator;
-        this.country = country;
-    }
+public Unit(Long id, String name, String unitClass, String model, String status, Long thermalCapacity, Date firstGridConnectionDate, Date dateShutdown, Company owner, Company operator, Country country, double burnup, double firstLoad) {
+    this.id = id;
+    this.name = name;
+    this.unitClass = unitClass;
+    this.model = model;
+    this.status = status;
+    this.thermalCapacity = thermalCapacity;
+    this.firstGridConnectionDate = firstGridConnectionDate;
+    this.dateShutdown = dateShutdown;
+    this.owner = owner;
+    this.operator = operator;
+    this.country = country;
+    this.burnup = burnup;
+    this.firstLoad = firstLoad;
+}
+
 
     public Long getId() {
         return id;
