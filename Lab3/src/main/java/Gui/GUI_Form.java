@@ -27,6 +27,7 @@ public class GUI_Form extends javax.swing.JFrame {
     private final Aggregator aggregator;
     private final TablePopulator tablePopulator;
     private final Storage storage;
+    private boolean isDataLoaded = false;
 
     public GUI_Form(EntityManagerFactory entityManagerFactory) {
         initComponents();
@@ -36,10 +37,10 @@ public class GUI_Form extends javax.swing.JFrame {
         tablePopulator = new TablePopulator();
 
         EntityManager em = entityManagerFactory.createEntityManager();
-        aggregator = new Aggregator(new CompanyDAO(em, 50),
+        aggregator = new Aggregator(new CompanyDAO(em, 100),
                 new CountryDAO(em, 50),
-                new RegionDAO(em, 7),
-                new UnitDAO(em, 100),
+                new RegionDAO(em, 10),
+                new UnitDAO(em, 250),
                 new FuelConsumptionCalculator(new KIUMDAO(em, 100), storage));
 
         ButtonGroup group = new ButtonGroup();
@@ -197,9 +198,12 @@ public class GUI_Form extends javax.swing.JFrame {
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = fileChooser.getSelectedFile();
                 reactorInfoProcessor.importReactorInfoFromFile(selectedFile);
+                isDataLoaded = true; // Устанавливаем флаг после успешной загрузки данных
+                JOptionPane.showMessageDialog(this, "Данные успешно загружены.");
             }
         } catch (URISyntaxException ex) {
             ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Ошибка при загрузке данных: " + ex.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_loadButtonActionPerformed
 
@@ -285,6 +289,11 @@ public class GUI_Form extends javax.swing.JFrame {
     }//GEN-LAST:event_loadBDActionPerformed
 
     private void calculateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calculateActionPerformed
+        if (!isDataLoaded) {
+            JOptionPane.showMessageDialog(this, "Загрузите данные перед выполнением расчетов.", "Ошибка", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         DefaultTableModel tableModel = (DefaultTableModel) agregationTable.getModel();
 
         // Создание DataFiller и обновление Aggregator
@@ -305,7 +314,7 @@ public class GUI_Form extends javax.swing.JFrame {
             Map<Company, Map<Integer, Double>> operatorConsumption = aggregator.getOperatorConsumption();
             tablePopulator.populateTableByOperator(tableModel, operatorConsumption);
         } else {
-            JOptionPane.showMessageDialog(this, "Select an aggregation option.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Выберите вариант агрегации.", "Ошибка", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_calculateActionPerformed
 
